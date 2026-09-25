@@ -1,26 +1,75 @@
+/* ============================================================
+   GLOBALS.CSS
+   ------------------------------------------------------------
+   Este arquivo é o "coração visual" do portfólio. Aqui são definidos:
+   1. A importação do Tailwind CSS v4
+   2. A paleta de cores do Tema Claro (Branco + Amarelo Forte)
+   3. A paleta de cores do Tema Escuro (Preto + Ciano)
+   4. A conexão dessas cores com classes utilitárias do Tailwind,
+      como "bg-background", "text-primary", "border-border" etc.
+   ============================================================ */
+
 @import "tailwindcss";
 
+/* Ensina o Tailwind a ativar as classes "dark:" sempre que existir
+   a classe .dark em algum elemento pai. É essa classe que a
+   biblioteca "next-themes" adiciona/remove da tag <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------
+   TEMA CLARO (padrão do site) — Fundo Branco + Amarelo Forte
+   ------------------------------------------------------------ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-background: #ffffff;      /* fundo principal do site */
+  --color-surface: #fafafa;         /* fundo de cards e seções alternadas */
+  --color-text: #1a1a1a;            /* cor principal do texto */
+  --color-text-muted: #4d4d4d;      /* texto secundário (descrições, legendas) */
+  --color-primary: #ffc300;         /* AMARELO FORTE — cor de destaque do site */
+  --color-primary-hover: #e6af00;   /* amarelo mais escuro, usado ao passar o mouse */
+  --color-border: #e5e5e5;          /* bordas sutis entre seções */
 }
 
+/* ------------------------------------------------------------
+   TEMA ESCURO — Fundo Preto + Ciano
+   Ativado automaticamente quando <html class="dark"> estiver presente
+   ------------------------------------------------------------ */
+.dark {
+  --color-background: #000000;
+  --color-surface: #0d0d0d;
+  --color-text: #f2f2f2;
+  --color-text-muted: #b3b3b3;
+  --color-primary: #00e5ff;         /* CIANO — cor de destaque no modo escuro */
+  --color-primary-hover: #00b8cc;
+  --color-border: #1a1a1a;
+}
+
+/* Conecta as variáveis de cor acima às classes utilitárias do Tailwind.
+   Graças a isso, podemos usar "bg-background", "text-primary" etc.
+   em qualquer componente, e a cor muda sozinha conforme o tema ativo. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-text: var(--color-text);
+  --color-text-muted: var(--color-text-muted);
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-border: var(--color-border);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Reset básico e comportamento global da página */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth; /* rolagem suave ao clicar nos links do menu */
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  /* Transição suave na troca entre modo claro/escuro */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
